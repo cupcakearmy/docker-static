@@ -1,7 +1,7 @@
 # NGINX Static Server
 
 This is a little docker image for histing static content efficiently.
-Supports ETags & Brotli/GZip compression out of the box.
+**Supports ETags & Brotli/GZip** compression out of the box.
 
 ## Quickstart 🚀
 
