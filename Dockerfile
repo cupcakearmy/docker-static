@@ -2,7 +2,7 @@ FROM alpine AS builder
 
 ARG DEP_DEV="alpine-sdk zlib-dev pcre-dev openssl-dev gd-dev"
 ARG NGINX_MODULES="--with-http_realip_module --with-threads --with-http_ssl_module --with-http_v2_module --with-http_image_filter_module --with-http_gzip_static_module --with-http_secure_link_module"
-ARG NGINX=1.17.9
+ARG NGINX=1.20.1
 
 RUN apk add --no-cache ${DEP_DEV}
 
