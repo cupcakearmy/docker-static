@@ -1,5 +1,9 @@
 # NGINX Static Server
 
+![Docker Pulls](https://img.shields.io/docker/pulls/cupcakearmy/static?style=flat-square)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/cupcakearmy/static/latest?style=flat-square)
+![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/cupcakearmy/static/latest?style=flat-square)
+
 This is a little docker image for histing static content efficiently.
 **Supports ETags & Brotli/GZip** compression out of the box.
 
