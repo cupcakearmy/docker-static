@@ -1,4 +1,4 @@
-import { setOutput } from '@actions/core'
+import { info, setOutput } from '@actions/core'
 
 // Fetch the current versions from the download page
 const URL = `https://nginx.org/en/download.html`
@@ -26,4 +26,7 @@ const githubActionMatrix = {
   include: Object.entries(tagsMap).map(([tag, version]) => ({ tag, version })),
 }
 
-setOutput('matrix', githubActionMatrix)
+const serialised = JSON.stringify(githubActionMatrix)
+info(`Found ${versions.length} versions`)
+info(`Exporting as github action matrix: ${serialised}`)
+setOutput('matrix', serialised)
