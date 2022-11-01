@@ -23,7 +23,8 @@ const filtered = versions.sort(semver.rcompare).slice(0, 2)
 function convert(version, additional = []) {
   return {
     version,
-    tags: [version, ...additional].join(';'),
+    // https://github.com/docker/metadata-action#typeraw
+    tags: [version, ...additional].map((t) => `type=raw,value=${t}`).join(';'),
   }
 }
 

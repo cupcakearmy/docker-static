@@ -55,7 +55,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            cupcakearmy/breitbandbot
+            cupcakearmy/static
             ghcr.io/${{ github.repository }}
           tags: ${{ matrix.tags }}
           sep-tags: ";"
