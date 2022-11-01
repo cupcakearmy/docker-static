@@ -18,17 +18,20 @@ const versions = matches.map(clean)
 const filtered = versions.sort(semver.rcompare).slice(0, 2)
 
 // Map the docker tags to the versions
-const tagsMap = Object.fromEntries(filtered.map((v) => [v, v]))
+// const tagsMap = Object.fromEntries(filtered.map((v) => [v, v]))
 
 // Add the mainline, stable and latests tags
-tagsMap['latest'] = versions[0]
-tagsMap['mainline'] = versions[0]
-tagsMap['stable'] = versions[1]
+// tagsMap['latest'] = versions[0]
+// tagsMap['mainline'] = versions[0]
+// tagsMap['stable'] = versions[1]
 
 // Export as github action matrix
 // https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#expanding-or-adding-matrix-configurations
 const githubActionMatrix = {
-  include: Object.entries(tagsMap).map(([tag, version]) => ({ tag, version })),
+  include: [
+    { version: filtered[0], tags: ['latest', 'mainline', filtered[0]] },
+    { version: filtered[1], tags: ['stable', filtered[1]] },
+  ],
 }
 
 const serialised = JSON.stringify(githubActionMatrix)
