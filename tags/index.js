@@ -14,8 +14,8 @@ const clean = (match) => match.replace(/"/g, '').replace('/download/nginx-', '')
 const versions = matches.map(clean)
 
 // Filter
-const MIN_VERSION = '1.20.0'
-const filtered = versions.filter((v) => semver.gte(v, MIN_VERSION))
+// Get the two most up to date versions, mainline and stable
+const filtered = versions.sort(semver.rcompare).slice(0, 2)
 
 // Map the docker tags to the versions
 const tagsMap = Object.fromEntries(filtered.map((v) => [v, v]))
