@@ -61,8 +61,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          # platforms: linux/amd64,linux/arm64
-          platforms: linux/amd64
-          push: false
+          push: true
+          platforms: linux/amd64,linux/arm64
           build-args: NGINX=${{ matrix.version }}
           tags: ${{ steps.meta.outputs.tags }}
