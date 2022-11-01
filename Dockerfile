@@ -2,17 +2,17 @@
 FROM alpine AS builder
 
 ARG DEP_DEV="alpine-sdk zlib-dev pcre-dev openssl-dev gd-dev"
-ARG NGINX_MODULES="--with-http_realip_module --with-threads --with-http_ssl_module --with-http_v2_module --with-http_image_filter_module --with-http_gzip_static_module --with-http_secure_link_module"
-ARG NGINX=1.21.6
-
 RUN apk add --no-cache ${DEP_DEV}
 
+
 WORKDIR /build
+ARG NGINX=1.21.6
 RUN curl https://nginx.org/download/nginx-${NGINX}.tar.gz | tar xz
 RUN mv nginx-${NGINX} nginx
 RUN git clone --recursive https://github.com/google/ngx_brotli.git
 
 WORKDIR /build/nginx
+ARG NGINX_MODULES="--with-http_realip_module --with-threads --with-http_ssl_module --with-http_v2_module --with-http_image_filter_module --with-http_gzip_static_module --with-http_secure_link_module"
 RUN ./configure ${NGINX_MODULES} --add-module=../ngx_brotli
 RUN make
 RUN make install
