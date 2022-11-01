@@ -1,13 +1,9 @@
-name: trial
+name: Matrix Cron Build
 
 on:
   workflow_dispatch:
-  push:
-  # schedule:
-  #   - cron: "0 3 * * 1"
-  # push:
-  #   tags:
-  #     - "v*.*.*"
+  schedule:
+    - cron: "0 3 * * 1"
 
 jobs:
   tags:
@@ -60,7 +56,6 @@ jobs:
             cupcakearmy/static
             ghcr.io/${{ github.repository }}
           tags: ${{ matrix.tags }}
-          # sep-tags: ","
 
       - name: Build and push
         id: docker_build
@@ -71,4 +66,3 @@ jobs:
           push: false
           build-args: NGINX=${{ matrix.version }}
           tags: ${{ steps.meta.outputs.tags }}
-          # tags: cupcakearmy/static:${{ matrix.tag }},ghcr.io/${{ github.repository }}:${{ matrix.tag }}

@@ -19,19 +19,18 @@ const versions = matches.map(clean)
 // Get the two most up to date versions, mainline and stable
 const filtered = versions.sort(semver.rcompare).slice(0, 2)
 
-// Set the tags with a delimiter of ";"
 function convert(version, additional = []) {
   return {
     version,
     // https://github.com/docker/metadata-action#typeraw
-    tags: [version, ...additional].join('\n'),
+    tags: [version, ...additional].map((t) => `type=raw,value=${t}`).join('\n'),
   }
 }
 
 // Export as github action matrix
 // https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#expanding-or-adding-matrix-configurations
 const githubActionMatrix = {
-  include: [convert(versions[0], ['latest', 'mainline']), convert(versions[1], ['stable'])],
+  include: [convert(filtered[0], ['latest', 'mainline']), convert(filtered[1], ['stable'])],
 }
 
 const serialised = JSON.stringify(githubActionMatrix)
