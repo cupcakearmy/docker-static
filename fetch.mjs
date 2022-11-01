@@ -1,4 +1,5 @@
 import { info, setOutput } from '@actions/core'
+import semver from 'semver'
 
 // Fetch the current versions from the download page
 const URL = `https://nginx.org/en/download.html`
@@ -12,8 +13,12 @@ const matches = html.match(re)
 const clean = (match) => match.replace(/"/g, '').replace('/download/nginx-', '').replace('.tar.gz', '')
 const versions = matches.map(clean)
 
+// Filter
+const MIN_VERSION = '1.20.0'
+const filtered = versions.filter((v) => semver.gte(v, MIN_VERSION))
+
 // Map the docker tags to the versions
-const tagsMap = Object.fromEntries(versions.map((v) => [v, v]))
+const tagsMap = Object.fromEntries(filtered.map((v) => [v, v]))
 
 // Add the mainline, stable and latests tags
 tagsMap['latest'] = versions[0]
