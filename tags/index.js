@@ -24,7 +24,7 @@ function convert(version, additional = []) {
   return {
     version,
     // https://github.com/docker/metadata-action#typeraw
-    tags: [version, ...additional].join(','),
+    tags: [version, ...additional].join('\n'),
   }
 }
 
