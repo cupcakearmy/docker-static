@@ -8,12 +8,22 @@ on:
   #     - "v*.*.*"
 
 jobs:
+  tags:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm i
+      - run: node fetch.mjs
+
   build:
     strategy:
       matrix:
-        include:
-          - tag: 1.20.2
-            version: 1.20.2
+        ${{fromJson(needs.tags.outputs.matrix)}}
+        # include:
+        #   - tag: 1.20.2
+        #     version: 1.20.2
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
