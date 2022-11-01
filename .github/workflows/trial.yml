@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.fetcher.outputs.matrix }}
+    defaults:
+      run:
+        working-directory: tags
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -19,7 +22,7 @@ jobs:
           node-version: 18
       - run: npm i
       - id: fetcher
-        run: node fetch.mjs
+        run: node .
 
   build:
     runs-on: ubuntu-latest

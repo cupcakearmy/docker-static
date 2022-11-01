@@ -1,4 +1,6 @@
 {
+  "type": "module",
+  "main": "index.js",
   "devDependencies": {
     "@actions/core": "^1.10.0",
     "semver": "^7.3.8"
