@@ -58,6 +58,7 @@ jobs:
             cupcakearmy/breitbandbot
             ghcr.io/${{ github.repository }}
           tags: ${{ matrix.tags }}
+          sep-tags: ";"
 
       - name: Build and push
         id: docker_build

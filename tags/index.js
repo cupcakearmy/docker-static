@@ -10,28 +10,27 @@ const re = /"\/download\/nginx-(\d+\.){3}tar\.gz"/g
 const matches = html.match(re)
 
 // Clean up the matches to semver format
-const clean = (match) => match.replace(/"/g, '').replace('/download/nginx-', '').replace('.tar.gz', '')
+function clean(match) {
+  return match.replace(/"/g, '').replace('/download/nginx-', '').replace('.tar.gz', '')
+}
 const versions = matches.map(clean)
 
 // Filter
 // Get the two most up to date versions, mainline and stable
 const filtered = versions.sort(semver.rcompare).slice(0, 2)
 
-// Map the docker tags to the versions
-// const tagsMap = Object.fromEntries(filtered.map((v) => [v, v]))
-
-// Add the mainline, stable and latests tags
-// tagsMap['latest'] = versions[0]
-// tagsMap['mainline'] = versions[0]
-// tagsMap['stable'] = versions[1]
+// Set the tags with a delimiter of ";"
+function convert(version, additional = []) {
+  return {
+    version,
+    tags: [version, ...additional].join(';'),
+  }
+}
 
 // Export as github action matrix
 // https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#expanding-or-adding-matrix-configurations
 const githubActionMatrix = {
-  include: [
-    { version: filtered[0], tags: ['latest', 'mainline', filtered[0]] },
-    { version: filtered[1], tags: ['stable', filtered[1]] },
-  ],
+  include: [convert(versions[0], ['latest', 'mainline']), convert(versions[1], ['stable'])],
 }
 
 const serialised = JSON.stringify(githubActionMatrix)
