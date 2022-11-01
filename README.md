@@ -7,6 +7,16 @@
 This is a little docker image for histing static content efficiently.
 **Supports ETags & Brotli/GZip** compression out of the box.
 
+Automatically builds the latest mainline and stable releases weekly.
+
+## Tags
+
+Tags follow the official nginx naming convention.
+
+- `mainline`, same as `latest`
+- `stable`
+- Specific version
+
 ## Quickstart 🚀
 
 ```yaml
