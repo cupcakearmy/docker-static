@@ -10,13 +10,16 @@ on:
 jobs:
   tags:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.fetcher.outputs.matrix }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
       - run: npm i
-      - run: node fetch.mjs
+      - id: fetcher
+        run: node fetch.mjs
 
   build:
     runs-on: ubuntu-latest
