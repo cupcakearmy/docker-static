@@ -9,6 +9,12 @@ This is a little docker image for histing static content efficiently.
 
 Automatically builds the latest mainline and stable releases weekly.
 
+## Features
+
+- Brotli & GZip
+- ETag
+- No server tokens
+
 ## Tags
 
 Tags follow the official nginx naming convention.
