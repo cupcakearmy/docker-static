@@ -3,6 +3,8 @@ name: trial
 on:
   workflow_dispatch:
   push:
+  # schedule:
+  #   - cron: 0 3 * * 1
   # push:
   #   tags:
   #     - "v*.*.*"
@@ -58,7 +60,7 @@ jobs:
             cupcakearmy/static
             ghcr.io/${{ github.repository }}
           tags: ${{ matrix.tags }}
-          sep-tags: ";"
+          sep-tags: ","
 
       - name: Build and push
         id: docker_build
