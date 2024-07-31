@@ -1,4 +1,4 @@
-import { info, setOutput, error } from '@actions/core'
+import { info, setOutput, setFailed } from '@actions/core'
 import semver from 'semver'
 
 // Fetch the current versions from the download page
@@ -10,7 +10,7 @@ const re = /"\/download\/nginx-(\d+\.){3}tar\.gz"/g
 const matches = html.match(re)
 
 if (!matches) {
-  error(`No versions found at ${URL}`)
+  setFailed(`No versions found at ${URL}`)
   process.exit(1)
 }
 
@@ -22,7 +22,12 @@ const versions = matches.map(clean)
 
 // Filter
 // Get the two most up to date versions, mainline and stable
-const filtered = versions.sort(semver.rcompare).slice(0, 2)
+const [mainline, stable] = versions.sort(semver.rcompare).slice(0, 2)
+
+if (!mainline || !stable) {
+  setFailed(`Could not find mainline and stable versions`)
+  process.exit(1)
+}
 
 function convert(version: string, additional: string[] = []) {
   return {
@@ -35,7 +40,7 @@ function convert(version: string, additional: string[] = []) {
 // Export as github action matrix
 // https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#expanding-or-adding-matrix-configurations
 const githubActionMatrix = {
-  include: [convert(filtered[0], ['latest', 'mainline']), convert(filtered[1], ['stable'])],
+  include: [convert(mainline, ['latest', 'mainline']), convert(stable, ['stable'])],
 }
 
 const serialised = JSON.stringify(githubActionMatrix)
