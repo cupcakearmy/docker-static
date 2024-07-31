@@ -1,4 +1,4 @@
-import { info, setOutput } from '@actions/core'
+import { info, setOutput, error } from '@actions/core'
 import semver from 'semver'
 
 // Fetch the current versions from the download page
@@ -9,8 +9,13 @@ const html = await fetch(URL).then((r) => r.text())
 const re = /"\/download\/nginx-(\d+\.){3}tar\.gz"/g
 const matches = html.match(re)
 
+if (!matches) {
+  error(`No versions found at ${URL}`)
+  process.exit(1)
+}
+
 // Clean up the matches to semver format
-function clean(match) {
+function clean(match: string): string {
   return match.replace(/"/g, '').replace('/download/nginx-', '').replace('.tar.gz', '')
 }
 const versions = matches.map(clean)
@@ -19,7 +24,7 @@ const versions = matches.map(clean)
 // Get the two most up to date versions, mainline and stable
 const filtered = versions.sort(semver.rcompare).slice(0, 2)
 
-function convert(version, additional = []) {
+function convert(version: string, additional: string[] = []) {
   return {
     version,
     // https://github.com/docker/metadata-action#typeraw
