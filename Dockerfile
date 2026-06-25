@@ -18,7 +18,7 @@ RUN make install
 
 
 # RUNNER
-FROM alpine
+FROM alpine:3
 
 ARG DEP_RUN="pcre openssl gd tzdata"
 
