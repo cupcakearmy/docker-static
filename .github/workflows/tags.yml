@@ -1,0 +1,23 @@
+name: Fetch Nginx Tags
+
+on:
+  workflow_call:
+    outputs:
+      matrix:
+        description: JSON matrix of nginx versions and docker tags
+        value: ${{ jobs.fetch.outputs.matrix }}
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.fetcher.outputs.matrix }}
+    defaults:
+      run:
+        working-directory: tags
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun i
+      - id: fetcher
+        run: bun .
