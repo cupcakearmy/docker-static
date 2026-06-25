@@ -1,9 +1,7 @@
-name: Matrix Cron Build
+name: PR Build
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 3 * * 1'
+  pull_request:
 
 jobs:
   tags:
@@ -15,7 +13,6 @@ jobs:
       matrix: ${{fromJson(needs.tags.outputs.matrix)}}
     uses: ./.github/workflows/build.yml
     with:
-      push: true
+      push: false
       nginx_version: ${{ matrix.version }}
       tags: ${{ matrix.tags }}
-    secrets: inherit
